@@ -1,7 +1,4 @@
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
 
 namespace ViewDemo.Models
 {
@@ -13,6 +10,7 @@ namespace ViewDemo.Models
         }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Org> Orgs { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

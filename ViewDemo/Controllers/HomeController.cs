@@ -10,7 +10,12 @@ namespace ViewDemo.Controllers
     {
         public ActionResult Index()
         {
+            //ViewData["Name"] = "5566得第一";
+            //ViewBag.Name = "F4得第二";
+
+            //TempData["Name"] = "EG得第三";
             return View();
+            //return RedirectToAction("About");
         }
 
         public ActionResult About()

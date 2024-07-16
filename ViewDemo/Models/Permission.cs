@@ -43,6 +43,6 @@ namespace ViewDemo.Models
         [Display(Name = "ActionName")]
         public string ActionName { get; set; }
 
-        public virtual ICollection<Permission> Permissions { get; set; }
+        public virtual ICollection<Permission> ChildPermissions { get; set; }
     }
 }

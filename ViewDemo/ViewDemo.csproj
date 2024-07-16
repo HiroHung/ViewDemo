@@ -139,11 +139,16 @@
     <Compile Include="Migrations\202407100313335_Base.Designer.cs">
       <DependentUpon>202407100313335_Base.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407120842463_AddPermission.cs" />
+    <Compile Include="Migrations\202407120842463_AddPermission.Designer.cs">
+      <DependentUpon>202407120842463_AddPermission.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DbModel.cs" />
     <Compile Include="Models\EnumList.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Org.cs" />
+    <Compile Include="Models\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +180,8 @@
     <Content Include="css\forms.css" />
     <Content Include="css\stats.css" />
     <Content Include="css\styles.css" />
+    <Content Include="dist\tree.js" />
+    <Content Include="dist\tree.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -193,6 +200,8 @@
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="dist\tree.js.map" />
+    <Content Include="dist\tree.min.js.map" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -262,6 +271,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202407100313335_Base.resx">
       <DependentUpon>202407100313335_Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407120842463_AddPermission.resx">
+      <DependentUpon>202407120842463_AddPermission.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

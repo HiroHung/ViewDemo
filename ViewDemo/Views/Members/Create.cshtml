@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Member</h4>
         <hr />
@@ -30,13 +30,8 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PasswordSalt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PasswordSalt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PasswordSalt, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @Html.HiddenFor(model => model.PasswordSalt)
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -113,3 +108,50 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+@section Scripts {
+    <script src="~/dist/tree.js"></script>
+    <script>
+        //let data = [{
+        //    "id": "A01",
+        //    "text": "首頁",
+        //}, {
+        //    "id": "B",
+        //    "text": "基本資料管理",
+        //    "children": [{
+        //        "id": "B01",
+        //        "text": "帳號管理"
+        //    }, {
+        //        "id": "B02",
+        //        "text": "組織管理"
+        //    },
+        //    ]
+        //}, {
+        //    "id": "C",
+        //    "text": "個人資料管理",
+        //    "children": [{
+        //        "id": "C01",
+        //        "text": "個人資料修改"
+        //    }, {
+        //        "id": "C02",
+        //        "text": "更改密碼"
+        //    },
+        //    ]
+        //}
+        //]
+        let data = @Html.Raw(ViewBag.TreeData);
+        let tree = new Tree('.tree', {
+            data: data,
+            closeDepth: 3,
+            loaded: function () {
+                //this.values = ['0-0-0', '0-1-1'];
+                //console.log(this.selectedNodes);
+                //console.log(this.values);
+                //this.disables = ['0-0-0', '0-0-1', '0-0-2']
+            },
+            onChange: function () {
+                console.log(this.values);
+                $("#Permission").val(this.values)
+            }
+        })
+    </script>
+}

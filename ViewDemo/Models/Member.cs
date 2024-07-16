@@ -11,7 +11,6 @@ namespace ViewDemo.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-
         [Required(ErrorMessage = "{0}必填")]
         [MaxLength(50)]
         [Display(Name = "帳號")]
@@ -34,7 +33,6 @@ namespace ViewDemo.Models
         [DataType(DataType.Password)]
         [Display(Name = "密碼")]
         public string Password { get; set; }
-
 
         [Required(ErrorMessage = "{0}必填")]
         [MaxLength(50)]

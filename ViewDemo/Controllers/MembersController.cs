@@ -7,10 +7,13 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using ViewDemo.Filter;
 using ViewDemo.Models;
 
 namespace ViewDemo.Controllers
 {
+    [Authorize]
+    [PermissionFilters]
     public class MembersController : Controller
     {
         private DbModel db = new DbModel();
@@ -40,8 +43,51 @@ namespace ViewDemo.Controllers
         // GET: Members/Create
         public ActionResult Create()
         {
+            ViewBag.Tree = GetTree();
+
             ViewBag.OrgId = new SelectList(db.Orgs, "Id", "Subject");
             return View();
+        }
+
+        private string GetTree()
+        {
+            //組字串
+            StringBuilder sb = new StringBuilder();
+            //取得權限
+            var permissions = db.Permissions.ToList();
+
+            //開始組字串
+            sb.Append("[");
+            //第一層權限
+            var firstPermissions = permissions.Where(x => x.ParentId == null).ToList();
+            //使用遞迴組字串
+            var treeString = GetTreeString(firstPermissions);
+            sb.Append(treeString);
+            sb.Append("]");
+
+            return sb.ToString();
+        }
+
+        private string GetTreeString(ICollection<Permission> permissions)
+        {
+            //組字串
+            StringBuilder sb = new StringBuilder();
+            foreach (var permission in permissions)
+            {
+                sb.Append("{");
+                sb.Append($"'id': '{permission.Code}',");
+                sb.Append($"'text': '{permission.Subject}'");
+                if (permission.ChildPermissions.Any())
+                {
+                    sb.Append(",'children':");
+                    sb.Append("[");
+                    sb.Append(GetTreeString(permission.ChildPermissions));
+                    sb.Append("]");
+                }
+                sb.Append("},");
+            }
+            string result = sb.ToString().TrimEnd(',');
+            return result;
         }
 
         // POST: Members/Create
@@ -49,10 +95,14 @@ namespace ViewDemo.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Account,OrgId,PasswordSalt,Password,Name,Email,Telphone,Mobile,Address,Permission,Gender")] Member member)
+        public ActionResult Create(Member member)
         {
             if (ModelState.IsValid)
             {
+                member.PasswordSalt = Utility.CreateSalt();
+                var hashPassword = Utility.GenerateHashWithSalt(member.Password, member.PasswordSalt);
+                member.Password = hashPassword;
+
                 db.Members.Add(member);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -75,6 +125,7 @@ namespace ViewDemo.Controllers
                 return HttpNotFound();
             }
             ViewBag.OrgId = new SelectList(db.Orgs, "Id", "Subject", member.OrgId);
+            ViewBag.Tree = GetTree();
             return View(member);
         }
 

@@ -32,7 +32,6 @@
 
         @Html.HiddenFor(model => model.PasswordSalt)
 
-
         <div class="form-group">
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -84,7 +83,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Permission, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Permission, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.Permission, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="tree">
+                </div>
                 @Html.ValidationMessageFor(model => model.Permission, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -108,9 +109,10 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-@section Scripts {
-    <script src="~/dist/tree.js"></script>
+@section scripts{
+    <script src="~/dist/tree.min.js"></script>
     <script>
+        // prettier-ignore
         //let data = [{
         //    "id": "A01",
         //    "text": "首頁",
@@ -138,15 +140,13 @@
         //    ]
         //}
         //]
-        let data = @Html.Raw(ViewBag.TreeData);
+        let data =@Html.Raw(ViewBag.Tree)
         let tree = new Tree('.tree', {
             data: data,
             closeDepth: 3,
             loaded: function () {
-                //this.values = ['0-0-0', '0-1-1'];
-                //console.log(this.selectedNodes);
-                //console.log(this.values);
-                //this.disables = ['0-0-0', '0-0-1', '0-0-2']
+                console.log(this.selectedNodes);
+                console.log(this.values);
             },
             onChange: function () {
                 console.log(this.values);

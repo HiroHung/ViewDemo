@@ -6,10 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ViewDemo.Filter;
 using ViewDemo.Models;
 
 namespace ViewDemo.Controllers
 {
+    [Authorize]
+    [PermissionFilters]
     public class OrgsController : Controller
     {
         private DbModel db = new DbModel();
